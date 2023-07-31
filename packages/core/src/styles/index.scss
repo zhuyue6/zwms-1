@@ -1,0 +1,30 @@
+html,
+body,
+ol,
+ul,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  padding: 0;
+  margin: 0;
+}
+
+$rootFontSize: 12px;
+:root {
+  font-size: $rootFontSize;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+.el-container {
+  flex-grow: 1;
+}

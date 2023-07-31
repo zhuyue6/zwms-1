@@ -1,0 +1,6 @@
+node_modules/
+dist/
+test/
+.idea
+auto-imports.d.ts
+components.d.ts
