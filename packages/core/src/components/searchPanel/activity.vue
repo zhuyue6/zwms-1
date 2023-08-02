@@ -1,5 +1,12 @@
 <template>
-  <el-select multiple v-model="state.value" clearable filterable placeholder="请选择活动" @change="change">
+  <el-select
+    multiple
+    v-model="state.value"
+    clearable
+    filterable
+    placeholder="请选择活动"
+    @change="change"
+  >
     <el-option
       v-for="item in state.list"
       :key="item.value"
@@ -15,8 +22,8 @@ import { getTradePromList } from '@/services/common'
 import { ElOption } from 'element-plus'
 
 interface Option {
-  value: string | number,
-  label: string,
+  value: string | number
+  label: string
 }
 
 interface State {
@@ -30,7 +37,7 @@ interface Props {
 
 const state: State = reactive({
   value: [],
-  list: []
+  list: [],
 })
 const props = defineProps<Props>()
 
@@ -47,11 +54,11 @@ watchEffect(() => {
 function getList() {
   return getTradePromList({
     currPage: 1,
-    pageSize: 10000
+    pageSize: 10000,
   }).then((res) => {
     let list: Option[] = []
     if (res) {
-      list =  res.records.map((item) => ({
+      list = res.records.map((item) => ({
         label: item.title,
         value: item.id,
       }))
@@ -60,8 +67,7 @@ function getList() {
   })
 }
 
-onBeforeMount(()=>{
+onBeforeMount(() => {
   getList()
 })
-
 </script>

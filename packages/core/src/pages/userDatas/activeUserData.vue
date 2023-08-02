@@ -7,14 +7,13 @@
 </template>
 
 <script setup lang="ts">
-
 import searchTable from '@/components/pageTemplate/searchTable.vue'
-import {  CTableColumnInstance } from '@/components'
+import { CTableColumnInstance } from '@/components'
 import { SearchItem, SearchParams } from '@/components/searchPanel/type'
-import { tableColumnPresets as columns } from '@/shared/constant'
+import { tableColumnPresets as columns } from '@/commons/constant'
 import { getActiveUserData } from '@/services'
-import { util } from '@/shared'
-import { useDaysTimeRange } from '@/hooks'
+import { util } from '@zwms/shared'
+import { useDaysTimeRange } from '@zwms/hooks'
 
 const searchList: SearchItem[] = [
   {
@@ -28,7 +27,7 @@ const searchList: SearchItem[] = [
     key: 'promIds',
     transformListParams: true,
     value: [],
-  }
+  },
 ]
 const tableColumns: CTableColumnInstance[] = [
   { ...columns.rank, label: '序号' },
@@ -36,16 +35,15 @@ const tableColumns: CTableColumnInstance[] = [
   columns.addUserCount,
   columns.rate,
   columns.orderUserCount,
-  columns.time
+  columns.time,
 ]
-
 
 async function fetchData(searchParams: SearchParams) {
   return getActiveUserData(searchParams as any).then((res) => {
     let list = res.rows ?? []
-    list = list.map((item)=>({
+    list = list.map((item) => ({
       ...item,
-      time: util.formatTime(item.time)
+      time: util.formatTime(item.time),
     }))
     return {
       total: res.totalNum ?? list.length,

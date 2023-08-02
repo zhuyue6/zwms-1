@@ -7,8 +7,7 @@ import './styles/index.scss'
 import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/dist/locale/zh-cn'
 import { setInitTheme } from '@/themes'
-import {browserDetermine} from '@/shared/util'
-
+import { browserDetermine } from '@/commons/browser'
 
 const app = createApp(App)
 const pinia = createPinia()

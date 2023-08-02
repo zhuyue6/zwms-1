@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { useThemeInfo } from '@/hooks'
+import { useThemeInfo } from '@zwms/hooks'
 import { QuestionFilled } from '@element-plus/icons-vue'
 interface Props {
   content: string | undefined

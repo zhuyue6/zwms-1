@@ -1,7 +1,7 @@
 <template>
   <div class="search-condition-container">
     <div class="search-condition">
-       <Scrollbar :scrollX="false" class="search-scrollbar">
+      <Scrollbar :scrollX="false" class="search-scrollbar">
         <div class="search-condition-content">
           <template v-for="item of searchList" :key="item.key">
             <div
@@ -10,10 +10,7 @@
             >
               <span class="search-condition-content-item-title">
                 {{ item.title ? item.title : '选择时间' }}
-                <Tip
-                  :content="item.tip"
-                  v-if="item.tip"
-                />
+                <Tip :content="item.tip" v-if="item.tip" />
               </span>
               <el-date-picker
                 v-model="state.searchParams[item.key]"
@@ -32,12 +29,12 @@
             >
               <span class="search-condition-content-item-title">
                 {{ item.title ? item.title : '地区筛选' }}
-                <Tip
-                  :content="item.tip"
-                  v-if="item.tip"
-                />
+                <Tip :content="item.tip" v-if="item.tip" />
               </span>
-              <Area v-model="state.searchParams[item.key]" style="width: 400px" />
+              <Area
+                v-model="state.searchParams[item.key]"
+                style="width: 400px"
+              />
             </div>
             <div
               class="search-condition-content-item"
@@ -45,12 +42,12 @@
             >
               <span class="search-condition-content-item-title">
                 {{ item.title ? item.title : '地区筛选' }}
-                <Tip
-                  :content="item.tip"
-                  v-if="item.tip"
-                />
+                <Tip :content="item.tip" v-if="item.tip" />
               </span>
-              <Site v-model="state.searchParams[item.key]" style="width: 400px" />
+              <Site
+                v-model="state.searchParams[item.key]"
+                style="width: 400px"
+              />
             </div>
             <div
               class="search-condition-content-item"
@@ -58,12 +55,15 @@
             >
               <span class="search-condition-content-item-title">
                 {{ item.title ? item.title : '类目筛选' }}
-                <Tip
-                  :content="item.tip"
-                  v-if="item.tip"
-                />
+                <Tip :content="item.tip" v-if="item.tip" />
               </span>
-              <Category v-model="state.searchParams[item.key]" :categoryType="item.categoryType" :level="item.level" :isMultiple="item.isMultiple" style="width: 400px" />
+              <Category
+                v-model="state.searchParams[item.key]"
+                :categoryType="item.categoryType"
+                :level="item.level"
+                :isMultiple="item.isMultiple"
+                style="width: 400px"
+              />
             </div>
             <div
               class="search-condition-content-item"
@@ -71,12 +71,12 @@
             >
               <span class="search-condition-content-item-title">
                 {{ item.title ? item.title : '活动筛选' }}
-                <Tip
-                  :content="item.tip"
-                  v-if="item.tip"
-                />
+                <Tip :content="item.tip" v-if="item.tip" />
               </span>
-              <Activity v-model="state.searchParams[item.key]" style="width: 400px" />
+              <Activity
+                v-model="state.searchParams[item.key]"
+                style="width: 400px"
+              />
             </div>
             <div
               class="search-condition-content-item"
@@ -84,13 +84,14 @@
             >
               <span class="search-condition-content-item-title"
                 >{{ item.title }}
-                <Tip
-                  :content="item.tip"
-                  v-if="item.tip"
-                />
+                <Tip :content="item.tip" v-if="item.tip" />
               </span>
-              <el-select v-model="state.searchParams[item.key]" :clearable="true">
-                <el-option v-for="option of item.options"
+              <el-select
+                v-model="state.searchParams[item.key]"
+                :clearable="true"
+              >
+                <el-option
+                  v-for="option of item.options"
                   :label="option.label"
                   :key="option.value"
                   :value="option.value"
@@ -103,12 +104,12 @@
             >
               <span class="search-condition-content-item-title"
                 >{{ item.title }}
-                <Tip
-                  :content="item.tip"
-                  v-if="item.tip"
-                />
+                <Tip :content="item.tip" v-if="item.tip" />
               </span>
-              <el-input v-model="state.searchParams[item.key]" :clearable="true"/>
+              <el-input
+                v-model="state.searchParams[item.key]"
+                :clearable="true"
+              />
             </div>
           </template>
         </div>
@@ -128,7 +129,7 @@ import Area from './area.vue'
 import Site from './site.vue'
 import Category from './category.vue'
 import Activity from './activity.vue'
-import { simpleDeepCopy } from '@/shared/util'
+import { util } from '@zwms/shared'
 import Tip from '../tips/index.vue'
 import { SearchItem } from './type'
 import moment from 'moment'
@@ -170,7 +171,7 @@ onBeforeMount(() => {
 })
 
 function doReset() {
-  state.searchParams = simpleDeepCopy(initSearchParams)
+  state.searchParams = util.simpleDeepCopy(initSearchParams)
   emit('reset', state.searchParams)
 }
 
@@ -187,11 +188,12 @@ function timeLimit(date: Date, item: SearchItem) {
     const newTimeStamp: any = moment(date).format('X')
     const startTimeStamp: any = moment(item.startTime).format('X')
     const endTimeStamp: any = moment(item.endTime).format('X')
-    return !(newTimeStamp - startTimeStamp >= 0 && newTimeStamp - endTimeStamp <= 0)
+    return !(
+      newTimeStamp - startTimeStamp >= 0 && newTimeStamp - endTimeStamp <= 0
+    )
   }
   return false
 }
-
 </script>
 
 <style scoped lang="scss">

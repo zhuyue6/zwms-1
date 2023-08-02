@@ -7,12 +7,11 @@
 </template>
 
 <script setup lang="ts">
-
 import searchTable from '@/components/pageTemplate/searchTable.vue'
-import {  CTableColumnInstance } from '@/components'
+import { CTableColumnInstance } from '@/components'
 import { SearchItem, SearchParams } from '@/components/searchPanel/type'
-import { tableColumnPresets as columns } from '@/shared/constant'
-import { useDaysTimeRange } from '@/hooks'
+import { tableColumnPresets as columns } from '@/commons/constant'
+import { useDaysTimeRange } from '@zwms/hooks'
 import { getPromSales } from '@/services'
 
 const searchList: SearchItem[] = [
@@ -26,9 +25,9 @@ const searchList: SearchItem[] = [
     key: 'promIds',
     transformListParams: true,
     value: [],
-  }
+  },
 ]
-const tableColumns: CTableColumnInstance[]  =  [
+const tableColumns: CTableColumnInstance[] = [
   columns.promId,
   columns.promName,
   columns.gmv,
@@ -40,7 +39,7 @@ const tableColumns: CTableColumnInstance[]  =  [
 ]
 
 async function fetchData(searchParams: SearchParams) {
-  return getPromSales(searchParams as any).then((res)=>{
+  return getPromSales(searchParams as any).then((res) => {
     const list = res.rows ?? []
     return {
       total: res.totalNum ?? list.length,

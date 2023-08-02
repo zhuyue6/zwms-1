@@ -7,13 +7,12 @@
 </template>
 
 <script setup lang="ts">
-
 import searchTable from '@/components/pageTemplate/searchTable.vue'
-import {  CTableColumnInstance } from '@/components'
+import { CTableColumnInstance } from '@/components'
 import { SearchItem, SearchParams } from '@/components/searchPanel/type'
-import { tableColumnPresets as columns } from '@/shared/constant'
+import { tableColumnPresets as columns } from '@/commons/constant'
 import { getUserData } from '@/services'
-import { useDaysTimeRange } from '@/hooks'
+import { useDaysTimeRange } from '@zwms/hooks'
 
 const searchList: SearchItem[] = [
   {
@@ -36,14 +35,13 @@ const tableColumns: CTableColumnInstance[] = [
 async function fetchData(searchParams: SearchParams) {
   return getUserData(searchParams).then((res) => {
     let list = res.rows ?? []
-    list = list.map((item)=>({
-        ...item,
-        isUsedNewCoupons: item['isUsedNewCoupons'] === '1' ? '是' : '否'
-      })
-    )
+    list = list.map((item) => ({
+      ...item,
+      isUsedNewCoupons: item['isUsedNewCoupons'] === '1' ? '是' : '否',
+    }))
     return {
       total: res.totalNum ?? list.length,
-      list
+      list,
     }
   })
 }

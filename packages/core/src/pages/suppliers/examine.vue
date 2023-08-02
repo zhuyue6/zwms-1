@@ -7,12 +7,12 @@
 </template>
 <script setup lang="ts">
 import searchTable from '@/components/pageTemplate/searchTable.vue'
-import {  CTableColumnInstance } from '@/components'
+import { CTableColumnInstance } from '@/components'
 import { SearchItem, SearchParams } from '@/components/searchPanel/type'
 import { getSupplierExamine } from '@/services'
-import { util } from '@/shared'
-import { tableColumnPresets as columns } from '@/shared/constant'
-import { useDaysTimeRange } from '@/hooks'
+import { util } from '@zwms/shared'
+import { tableColumnPresets as columns } from '@/commons/constant'
+import { useDaysTimeRange } from '@zwms/hooks'
 
 const searchList: SearchItem[] = [
   {
@@ -42,7 +42,7 @@ const searchList: SearchItem[] = [
   },
 ]
 
-const tableColumns: CTableColumnInstance[]  =  [
+const tableColumns: CTableColumnInstance[] = [
   { ...columns.time, sortable: false },
   { ...columns.storeName, sortable: false },
   columns.primaryCategoryName,
@@ -60,10 +60,13 @@ const tableColumns: CTableColumnInstance[]  =  [
 ]
 
 async function fetchData(searchParams: SearchParams) {
-  return getSupplierExamine({ ...searchParams, currentPage: searchParams.pageNum } ).then((res)=>{
-    const list = (res?.records ?? []).map((item)=> ({
+  return getSupplierExamine({
+    ...searchParams,
+    currentPage: searchParams.pageNum,
+  }).then((res) => {
+    const list = (res?.records ?? []).map((item) => ({
       ...item,
-      time: util.formatTime(String(item.time))
+      time: util.formatTime(String(item.time)),
     }))
     return {
       total: res?.total ?? list.length,

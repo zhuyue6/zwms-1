@@ -1,5 +1,11 @@
 <template>
-  <el-cascader :props="areaProps" v-model="state.value" @change="change" collapse-tags  collapse-tags-tooltip />
+  <el-cascader
+    :props="areaProps"
+    v-model="state.value"
+    @change="change"
+    collapse-tags
+    collapse-tags-tooltip
+  />
 </template>
 
 <script setup lang="ts">

@@ -1,15 +1,13 @@
 <template>
   <div class="table-cell" v-if="isEllipsis">
     <el-tooltip placement="top" effect="dark" :hide-after="0" :content="text">
-      <div class="table-cell-content">
-        text
-      </div>
+      <div class="table-cell-content">text</div>
     </el-tooltip>
   </div>
   <span v-else :title="text">{{ text }}</span>
 </template>
 <script lang="ts" setup>
-import { isEmpty } from '@/shared/util'
+import { util } from '@zwms/shared'
 import { computed } from 'vue'
 
 const props = defineProps<{
@@ -17,8 +15,8 @@ const props = defineProps<{
   isEllipsis?: boolean
 }>()
 
-const text = computed<string>(()=>{
-  return isEmpty(props.text) ? '-' : props.text
+const text = computed<string>(() => {
+  return util.isEmpty(props.text) ? '-' : props.text
 })
 </script>
 <style lang="scss" scoped>

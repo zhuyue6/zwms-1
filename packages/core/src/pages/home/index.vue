@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import HomeHeader from './header.vue'
 import HomeNavigator from './navigator.vue'
-import { util } from '@/shared'
+import { util } from '@zwms/shared'
 import { shallowRef, onMounted } from 'vue'
 const headerVisible = shallowRef<boolean>(true)
 onMounted(() => {
@@ -46,7 +46,7 @@ onMounted(() => {
 
 .scale-slide-enter-active {
   position: absolute;
-  transition: all  0.6s ease 0.3s;
+  transition: all 0.6s ease 0.3s;
 }
 .scale-slide-leave-active {
   position: absolute;

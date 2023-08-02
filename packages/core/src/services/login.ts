@@ -1,6 +1,8 @@
-import { post, get } from '@/shared/http'
+import { post, get } from '@/services/http'
 import { UserApi } from '@/services/api'
-import { useUserInfo } from '@/hooks'
+import { common } from '@/store'
+
+const store = common.useCommonStore()
 
 interface LoginParams {
   password: string
@@ -26,14 +28,25 @@ export interface UserInfo {
 
 type LoginResponse = UserInfo
 
-const { setUserInfo } = useUserInfo()
 export async function login(params: LoginParams) {
-  const loginData = await post<LoginResponse>(UserApi.login, params, undefined, false, true)
+  const loginData = await post<LoginResponse>(
+    UserApi.login,
+    params,
+    undefined,
+    false,
+    true
+  )
   const userInfo = loginData
-  setUserInfo(userInfo)
+  store.setUserInfo(userInfo)
 }
 
 export async function loginOut() {
-  await get<LoginResponse>(UserApi.logout, undefined, undefined, undefined, true)
-  setUserInfo(null)
+  await get<LoginResponse>(
+    UserApi.logout,
+    undefined,
+    undefined,
+    undefined,
+    true
+  )
+  store.setUserInfo(null)
 }

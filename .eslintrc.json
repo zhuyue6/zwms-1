@@ -17,10 +17,11 @@
   "plugins": ["vue", "@typescript-eslint"],
   "rules": {
     "vue/multi-word-component-names": 0,
-    "@typescript-eslint/no-explicit-any": 0,
     "vue/comment-directive": 0,
-    "@typescript-eslint/no-empty-interface": 0,
+    "vue/no-dupe-keys": 0,
     "no-empty": 0,
+    "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/no-empty-interface": 0,
     "@typescript-eslint/no-empty-function": 0
   }
 }

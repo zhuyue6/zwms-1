@@ -1,4 +1,4 @@
-import { get } from '@/shared/http'
+import { get } from '@/services/http'
 import { UserApi, GoodsApi, OrderApi } from '@/services/api'
 interface regionParams {
   regionCode: string | number
@@ -71,10 +71,10 @@ export interface Category {
   attributeNum: number
   brandNum: number
   children: Category[]
-  childrenNum:number
-  code:number
+  childrenNum: number
+  code: number
   createTime: number
-  goodsNum:number
+  goodsNum: number
   id: string
   isDelete: number
   isLeaf: number
@@ -96,7 +96,7 @@ interface CategoryParams {
   pageSize: string | number
   parentId: string | number
   isBackendList: string | number
-  level: number | undefined 
+  level: number | undefined
 }
 
 interface CategoryResponse {
@@ -108,7 +108,12 @@ interface CategoryResponse {
 }
 
 export async function getCategory(params: CategoryParams) {
-  return get<CategoryResponse, CategoryParams>(GoodsApi.getBackendCategory, params, undefined, false)
+  return get<CategoryResponse, CategoryParams>(
+    GoodsApi.getBackendCategory,
+    params,
+    undefined,
+    false
+  )
 }
 
 export interface TradeProm {
@@ -230,9 +235,6 @@ export interface activeUserDataSnapshot {
   time: string
 }
 
-
 export function getOneLevelCategory() {
-  return get<Category[]>(
-    GoodsApi.getOneLevelCategory,
-  )
+  return get<Category[]>(GoodsApi.getOneLevelCategory)
 }

@@ -1,1 +1,1 @@
-export * from "./home";
+export * as common from './common'

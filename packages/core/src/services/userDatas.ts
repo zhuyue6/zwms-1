@@ -1,5 +1,5 @@
 import { UserDatasApi } from './api'
-import { get } from '@/shared/http'
+import { get } from '@/services/http'
 import {
   Page,
   newUserDataSnapshot,

@@ -1,15 +1,22 @@
 import { ActivitiesApi } from './api'
-import { get } from '@/shared/http'
-import { Page, SearchParams, SellGMVDimension, StoreSnapshot, GoodSnapshot, SupplierSnapshot, SiteSnapshot }  from './common'
-
+import { get } from '@/services/http'
+import {
+  Page,
+  SearchParams,
+  SellGMVDimension,
+  StoreSnapshot,
+  GoodSnapshot,
+  SupplierSnapshot,
+  SiteSnapshot,
+} from './common'
 
 interface Coupon extends GoodSnapshot {
   couponId: number // 优惠券id
   couponName: string // 优惠券名称
-  payment: number  // 实付金额
+  payment: number // 实付金额
   sales: number // 销售额
   mobile: string // 手机号（加密）
-  address: string  // 地址（加密）
+  address: string // 地址（加密）
   orderNo: string // 订单编号
   subOrderNo: string // 子订单编号
   supplierName: string //商家名称
@@ -33,7 +40,10 @@ interface CouponDetailResponse extends Page {
 }
 
 export async function getCouponDetail(params: CouponDetailParams) {
-  return get<CouponDetailResponse, CouponDetailParams>(ActivitiesApi.couponDetail, params)
+  return get<CouponDetailResponse, CouponDetailParams>(
+    ActivitiesApi.couponDetail,
+    params
+  )
 }
 
 interface PromSale extends SellGMVDimension {
@@ -50,10 +60,18 @@ interface PromSalesResponse extends Page {
 }
 
 export async function getPromSales(params: PromSalesParams) {
-  return get<PromSalesResponse, PromSalesParams>(ActivitiesApi.promSales, params)
+  return get<PromSalesResponse, PromSalesParams>(
+    ActivitiesApi.promSales,
+    params
+  )
 }
 
-interface GoodsSales extends SellGMVDimension, StoreSnapshot, GoodSnapshot, SupplierSnapshot, Omit<SiteSnapshot, 'siteName'> {}
+interface GoodsSales
+  extends SellGMVDimension,
+    StoreSnapshot,
+    GoodSnapshot,
+    SupplierSnapshot,
+    Omit<SiteSnapshot, 'siteName'> {}
 
 interface GoodsSalesParams extends SearchParams {
   goodsIds: string
@@ -67,11 +85,16 @@ interface GoodsSalesResponse extends Page {
 }
 
 export async function getGoodsSales(params: GoodsSalesParams) {
-  return get<GoodsSalesResponse, GoodsSalesParams>(ActivitiesApi.goodsSales, params)
+  return get<GoodsSalesResponse, GoodsSalesParams>(
+    ActivitiesApi.goodsSales,
+    params
+  )
 }
 
-
-interface LiveGoodSales extends SellGMVDimension, GoodSnapshot, Pick<SupplierSnapshot, 'supplierName'> {
+interface LiveGoodSales
+  extends SellGMVDimension,
+    GoodSnapshot,
+    Pick<SupplierSnapshot, 'supplierName'> {
   activityId: string
 }
 
@@ -84,7 +107,10 @@ interface LiveGoodSalesResponse extends Page {
 }
 
 export async function getLiveGoodSales(params: LiveSalesParams) {
-  return get<LiveGoodSalesResponse, LiveSalesParams>(ActivitiesApi.liveGoodSales, params)
+  return get<LiveGoodSalesResponse, LiveSalesParams>(
+    ActivitiesApi.liveGoodSales,
+    params
+  )
 }
 
 interface LiveSalesTotalSales extends SellGMVDimension {
@@ -97,5 +123,8 @@ interface LiveSalesTotalResponse extends Page {
 }
 
 export async function getLiveSalesTotalSales(params: LiveSalesParams) {
-  return get<LiveSalesTotalResponse, LiveSalesParams>(ActivitiesApi.liveSalesTotal, params)
+  return get<LiveSalesTotalResponse, LiveSalesParams>(
+    ActivitiesApi.liveSalesTotal,
+    params
+  )
 }

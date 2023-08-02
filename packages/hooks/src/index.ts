@@ -1,11 +1,4 @@
-import {
-  onMounted,
-  onUnmounted,
-  reactive,
-  ref,
-  nextTick,
-  Ref,
-} from 'vue'
+import { onMounted, onUnmounted, reactive, ref, nextTick, Ref } from 'vue'
 
 function getTimeString(timeStamp: number | Date) {
   const time = new Date(timeStamp)
@@ -19,7 +12,10 @@ export function useDaysTimeRange(days: number) {
   const nowTime = new Date()
   const interval = nowTime.getTime() - 1000 * 60 * 60 * 24 * days
   const intervalTime = new Date(interval)
-  const timeRange = reactive<string[]>([getTimeString(intervalTime), getTimeString(nowTime)])
+  const timeRange = reactive<string[]>([
+    getTimeString(intervalTime),
+    getTimeString(nowTime),
+  ])
   return timeRange
 }
 
@@ -40,18 +36,21 @@ const themeInfo = reactive<{
   styles: {},
 })
 
-
 export function useDomGeometry(parentDomRef: Ref<HTMLElement>) {
   const height = ref()
   const width = ref()
-  let observer: ResizeObserver | null = new ResizeObserver((list: ResizeObserverEntry[])=>{
-    list.forEach((entry)=>{
-      width.value = entry.contentRect.width
-      height.value = entry.contentRect.height
-    })
-  })
+  let observer: ResizeObserver | null = new ResizeObserver(
+    (list: ResizeObserverEntry[]) => {
+      list.forEach((entry) => {
+        width.value = entry.contentRect.width
+        height.value = entry.contentRect.height
+      })
+    }
+  )
   onMounted(() => {
-    (observer as ResizeObserver).observe((parentDomRef.value as any).parentElement)
+    ;(observer as ResizeObserver).observe(
+      (parentDomRef.value as any).parentElement
+    )
   })
   onUnmounted(() => {
     observer = null
@@ -77,4 +76,3 @@ export function useWindowGeometry(domRef: Ref<HTMLElement>) {
   })
   return { height, width }
 }
-

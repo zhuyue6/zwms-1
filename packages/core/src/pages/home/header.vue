@@ -40,7 +40,7 @@
 import { reactive, onMounted, computed } from 'vue'
 import { Sunny, MoonNight, CaretBottom } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { util } from '@/shared'
+import { util } from '@zwms/shared'
 import config from '../../../config'
 import { setTheme } from '@/themes'
 import { loginOut } from '@/services/login'
@@ -57,7 +57,7 @@ interface State {
     list: ThemeItem[]
   }
   userInfo: {
-    username: string,
+    username: string
     image: string
   }
 }
@@ -86,7 +86,7 @@ const themeDark = computed<boolean>(() => state.theme.value !== 'dark')
 const router = useRouter()
 
 function changeTheme(openDark: boolean) {
-  state.theme.value = openDark ? 'light': 'dark'
+  state.theme.value = openDark ? 'light' : 'dark'
   setTheme(state.theme.value)
   util.setStorage('theme', state.theme.value)
 }

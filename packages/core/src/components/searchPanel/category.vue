@@ -1,10 +1,10 @@
 <template>
-  <el-cascader 
-    :props="categoryProps" 
-    :options="state.list" 
-    v-model="state.value" 
-    @change="change" 
-    collapse-tags  
+  <el-cascader
+    :props="categoryProps"
+    :options="state.list"
+    v-model="state.value"
+    @change="change"
+    collapse-tags
     collapse-tags-tooltip
     clearable
   />
@@ -37,7 +37,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits(['update:modelValue'])
 
-const categoryProps = computed(()=>{
+const categoryProps = computed(() => {
   const cascaderProps = {
     lazy: props.level === undefined && props.categoryType !== 'main',
     checkStrictly: true,
@@ -53,7 +53,6 @@ const categoryProps = computed(()=>{
   return cascaderProps
 })
 
-
 function change(data: string[]) {
   emit('update:modelValue', data)
 }
@@ -62,13 +61,13 @@ watchEffect(() => {
   state.value = props.modelValue
 })
 
-async function getList(parentId=0, level?: number) {
+async function getList(parentId = 0, level?: number) {
   let resData = []
   if (props.categoryType === 'main') {
     resData = await getOneLevelCategory().then((res) => {
       let list: CascaderOption[] = []
       if (res) {
-        list =  (res ?? []).map((item) => ({
+        list = (res ?? []).map((item) => ({
           label: item.name,
           value: item.id,
         }))
@@ -81,11 +80,11 @@ async function getList(parentId=0, level?: number) {
       pageSize: 1000,
       parentId,
       isBackendList: 0,
-      level
+      level,
     }).then((res) => {
       let list: CascaderOption[] = []
       if (res) {
-        list =  (res?.records ?? []).map((item) => ({
+        list = (res?.records ?? []).map((item) => ({
           label: item.name,
           value: item.id,
         }))
@@ -96,8 +95,7 @@ async function getList(parentId=0, level?: number) {
   return resData
 }
 
-onBeforeMount(async ()=>{
+onBeforeMount(async () => {
   state.list = await getList(0, props.level)
 })
-
 </script>

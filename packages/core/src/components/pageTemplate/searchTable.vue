@@ -1,6 +1,11 @@
 <template>
   <div class="container">
-    <SearchPanel :searchList="props.searchList" @search="search" @export="exportExcel" @reset="reset" />
+    <SearchPanel
+      :searchList="props.searchList"
+      @search="search"
+      @export="exportExcel"
+      @reset="reset"
+    />
     <div class="home-table-container">
       <CTable
         :fetch-data="(fetchData as any)"
@@ -16,34 +21,35 @@
 import { SearchPanel, CTable, CTableColumnInstance } from '@/components'
 import { ref, watchEffect } from 'vue'
 import { SearchItem, SearchParams } from '@/components/searchPanel/type'
-import { util } from '@/shared'
+import { util } from '@zwms/shared'
+import * as excel from '@/commons/excel'
 import { useRoute } from 'vue-router'
-import { useUserInfo } from '@/hooks'
+import { common } from '@/store'
 
-const { userInfo } = useUserInfo()
+const store = common.useCommonStore()
 
 interface Props {
-  fetchData: (searchParams: SearchParams) => Promise<any>,
-  mountedGetData: boolean,
+  fetchData: (searchParams: SearchParams) => Promise<any>
+  mountedGetData: boolean
   tableColumns: CTableColumnInstance[]
   searchList: SearchItem[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
   mountedGetData: true,
-  searchList: () => []
+  searchList: () => [],
 })
 
 let searchParams = ref<SearchItem[]>([])
 
-watchEffect(()=>{
+watchEffect(() => {
   searchParams.value = props.searchList
 })
 
 const route = useRoute()
-const cTableRef = ref<typeof CTable | null >(null)
+const cTableRef = ref<typeof CTable | null>(null)
 
-function search(params: SearchParams, isReset=false) {
+function search(params: SearchParams, isReset = false) {
   for (const [key, value] of Object.entries(params)) {
     for (const searchParam of searchParams.value) {
       if (key === searchParam.key) {
@@ -59,10 +65,15 @@ function reset(params: SearchParams) {
 }
 
 function exportExcel() {
-  util.exportExcel(route, cTableRef, props.tableColumns)
+  excel.exportExcel(route, cTableRef, props.tableColumns)
 }
 
-async function fetchData(pageNum: number, pageSize: number, sort?: string, order?: string) {
+async function fetchData(
+  pageNum: number,
+  pageSize: number,
+  sort?: string,
+  order?: string
+) {
   const params: SearchParams = {}
   for (const item of searchParams.value) {
     if (item.type === 'dateRange') {
@@ -74,17 +85,16 @@ async function fetchData(pageNum: number, pageSize: number, sort?: string, order
       params[item.key] = item.value
     }
   }
-  
+
   return props.fetchData({
     sortField: sort,
     sortValue: order,
     ...params,
-    projectCode: userInfo.value?.projectCode,
+    projectCode: store.userInfo?.projectCode,
     pageSize,
     pageNum,
   })
 }
-
 </script>
 <style scoped lang="scss">
 @use '@/styles/common';

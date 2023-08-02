@@ -45,7 +45,8 @@ const nbGoodsBase = NbService[VITE_ENV]['GOODS']
 const GoodsApi = {
   getSiteChild: nbGoodsBase + 'backplat/site/child',
   getBackendCategory: nbGoodsBase + 'backplat/backend_category/list',
-  getOneLevelCategory: nbGoodsBase +  '/backplat/backend_category/getOneLevelCategory'
+  getOneLevelCategory:
+    nbGoodsBase + '/backplat/backend_category/getOneLevelCategory',
 }
 
 const nbOrderBase = NbService[VITE_ENV]['ORDER']
@@ -55,8 +56,7 @@ const OrderApi = {
 }
 
 // datawork阿里云只有线上地址
-const aliBase =
-  ''
+const aliBase = ''
 
 export const appCode = ''
 
@@ -65,7 +65,7 @@ const SalesApi = {
   siteSales: aliBase + 'query/site/sales',
   categorySales: aliBase + 'query/site/category/sales',
   supplierSales: aliBase + 'query/supplier/sales',
-  platSales: aliBase + 'plat/sales'
+  platSales: aliBase + 'plat/sales',
 }
 
 const ActivitiesApi = {
@@ -86,4 +86,12 @@ const SuppliersApi = {
   activeUser: aliBase + 'query/activity/user', // 查询活动用户数据
 }
 
-export { UserApi, GoodsApi, OrderApi, SalesApi, ActivitiesApi, UserDatasApi, SuppliersApi }
+export {
+  UserApi,
+  GoodsApi,
+  OrderApi,
+  SalesApi,
+  ActivitiesApi,
+  UserDatasApi,
+  SuppliersApi,
+}

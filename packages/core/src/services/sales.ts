@@ -1,6 +1,14 @@
 import { SalesApi } from './api'
-import { get } from '@/shared/http'
-import { Page, SearchParams, SellGMVDimension, StoreSnapshot, SupplierSnapshot, SiteSnapshot, CategorySnapshot }  from './common'
+import { get } from '@/services/http'
+import {
+  Page,
+  SearchParams,
+  SellGMVDimension,
+  StoreSnapshot,
+  SupplierSnapshot,
+  SiteSnapshot,
+  CategorySnapshot,
+} from './common'
 
 interface SalesSite26Params {
   beginTime: string // 开始时间（包含该时间）
@@ -24,10 +32,13 @@ interface SiteSalesResponse extends Page {
 }
 
 export async function getSiteSales(params: SalesSiteSalesParams) {
-  return get<SiteSalesResponse, SalesSiteSalesParams>(SalesApi.siteSales, params)
+  return get<SiteSalesResponse, SalesSiteSalesParams>(
+    SalesApi.siteSales,
+    params
+  )
 }
 
-interface SalesCategorySalesParams  extends SearchParams, Page  {
+interface SalesCategorySalesParams extends SearchParams, Page {
   siteIds: string
   categoryIds: string
 }
@@ -39,9 +50,11 @@ interface CategorySalesResponse extends Page {
 }
 
 export async function getCategorySales(params: SalesCategorySalesParams) {
-  return get<CategorySalesResponse, SalesCategorySalesParams>(SalesApi.categorySales, params)
+  return get<CategorySalesResponse, SalesCategorySalesParams>(
+    SalesApi.categorySales,
+    params
+  )
 }
-
 
 interface SalesSupplierParams extends SearchParams {
   supplierIds: string
@@ -57,7 +70,10 @@ interface SupplierSalesResponse extends Page {
 }
 
 export async function getSupplierSales(params: SalesSupplierParams) {
-  return get<SupplierSalesResponse, SalesSupplierParams>(SalesApi.supplierSales, params)
+  return get<SupplierSalesResponse, SalesSupplierParams>(
+    SalesApi.supplierSales,
+    params
+  )
 }
 
 export async function getPlatSales(params: SearchParams) {

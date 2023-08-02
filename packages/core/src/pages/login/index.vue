@@ -1,6 +1,12 @@
 <template>
   <div class="login-container">
-    <animationText class="login-content-bg text-content" v-if="state.step === 1" :text="config.welcomeText" :infinite="false" @finish="animationTextFinish"/>
+    <animationText
+      class="login-content-bg text-content"
+      v-if="state.step === 1"
+      :text="config.welcomeText"
+      :infinite="false"
+      @finish="animationTextFinish"
+    />
     <particle v-else class="login-content-bg" />
     <shuttleBg ref="shuttleRef" class="login-bg" />
     <haloBorder class="login-content" :style="styles">
@@ -44,8 +50,8 @@ import { FormInstance, ElMessage } from 'element-plus'
 import { login } from '@/services/login'
 import config from '../../../config'
 import { useRouter } from 'vue-router'
-import * as validateRule from '@/shared/validateRule'
-import { useThemeInfo } from '@/hooks'
+import { validateRule } from '@zwms/shared'
+import { useThemeInfo } from '@zwms/hooks'
 import animationText from '@/components/animations/text/index.vue'
 import shuttleBg from '@/components/animations/shuttleBg/index.vue'
 import haloBorder from '@/components/animations/haloBorder/index.vue'
@@ -55,7 +61,7 @@ interface State {
   formData: {
     userName: string
     password: string
-  },
+  }
   step: number
   loading: boolean
 }
@@ -66,7 +72,7 @@ const state: State = reactive({
     password: '',
   },
   loading: false,
-  step: 1
+  step: 1,
 })
 
 const rules = {
@@ -76,18 +82,20 @@ const rules = {
 
 const themeInfo = useThemeInfo()
 const formRef = ref<FormInstance | null>(null)
-const shuttleRef = ref<typeof shuttleBg| null>(null)
+const shuttleRef = ref<typeof shuttleBg | null>(null)
 
 const router = useRouter()
 
 const styles = computed<CSSProperties>(() => {
   return {
-    boxShadow: themeInfo.styles[`el-box-shadow`] ?  themeInfo.styles[`el-box-shadow`] : 'inherit'
+    boxShadow: themeInfo.styles[`el-box-shadow`]
+      ? themeInfo.styles[`el-box-shadow`]
+      : 'inherit',
   } as CSSProperties
 })
 
 function animationTextFinish() {
-  state.step++;
+  state.step++
   shuttleRef.value?.fast()
 }
 
@@ -101,18 +109,20 @@ function submit() {
       login({
         userName: state.formData.userName,
         password: state.formData.password,
-      }).then(() => {
-        ElMessage.success('登录成功')
-        router.push({
-          path: '/home',
-        })
-      }, ()=>{
-        state.loading = false
-      })
+      }).then(
+        () => {
+          ElMessage.success('登录成功')
+          router.push({
+            path: '/home',
+          })
+        },
+        () => {
+          state.loading = false
+        }
+      )
     }
   })
 }
-
 </script>
 
 <style lang="scss">
@@ -155,7 +165,7 @@ function submit() {
         bold,
         null,
         MicrosoftYaHei,
-        6px 6px 6px rgba(255, 255, 255, 0.30)
+        6px 6px 6px rgba(255, 255, 255, 0.3)
       );
     }
     .input-content {

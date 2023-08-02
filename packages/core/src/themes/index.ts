@@ -1,7 +1,7 @@
 import darkStyles from '../styles/themes/dark.module.scss'
 import lightStyles from '../styles/themes/light.module.scss'
-import { useThemeInfo } from '@/hooks'
-import { util } from '@/shared'
+import { useThemeInfo } from '@zwms/hooks'
+import { util } from '@zwms/shared'
 interface Theme {
   [index: string]: string
 }
@@ -16,7 +16,6 @@ const themes: Themes = {
 }
 
 const themeInfo = useThemeInfo()
-
 
 export function setInitTheme() {
   const queryTheme = util.getUrlQuery('theme')

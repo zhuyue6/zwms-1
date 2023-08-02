@@ -1,5 +1,11 @@
 <template>
-  <el-cascader :props="siteProps" v-model="state.value" @change="change" collapse-tags  collapse-tags-tooltip />
+  <el-cascader
+    :props="siteProps"
+    v-model="state.value"
+    @change="change"
+    collapse-tags
+    collapse-tags-tooltip
+  />
 </template>
 
 <script setup lang="ts">
@@ -57,6 +63,4 @@ function getSiteList(site_id = '0', leaf = false) {
   })
 }
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

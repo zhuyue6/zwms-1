@@ -7,11 +7,10 @@
 </template>
 
 <script setup lang="ts">
-
 import searchTable from '@/components/pageTemplate/searchTable.vue'
-import {  CTableColumnInstance } from '@/components'
+import { CTableColumnInstance } from '@/components'
 import { SearchItem, SearchParams } from '@/components/searchPanel/type'
-import { tableColumnPresets as columns } from '@/shared/constant'
+import { tableColumnPresets as columns } from '@/commons/constant'
 import { getLiveGoodSales } from '@/services'
 
 const searchList: SearchItem[] = [
@@ -21,9 +20,9 @@ const searchList: SearchItem[] = [
     key: 'activityIds',
     transformListParams: true,
     value: '',
-  }
+  },
 ]
-const tableColumns: CTableColumnInstance[]  =  [
+const tableColumns: CTableColumnInstance[] = [
   columns.goodsId,
   columns.goodsName,
   columns.gmv,
@@ -31,11 +30,11 @@ const tableColumns: CTableColumnInstance[]  =  [
   columns.gmvGoodsSellCount,
   columns.sales,
   columns.salesOrderCount,
-  columns.salesGoodsSellCount
+  columns.salesGoodsSellCount,
 ]
 
 async function fetchData(searchParams: SearchParams) {
-  return getLiveGoodSales(searchParams as any).then((res)=>{
+  return getLiveGoodSales(searchParams as any).then((res) => {
     const list = res.rows ?? []
     return {
       total: res.totalNum ?? list.length,

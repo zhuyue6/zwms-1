@@ -1,6 +1,11 @@
 <template>
   <div class="table-container" ref="tableContainerRef">
-    <div :class="['table-content', state.tableData.length > 0 ? 'full-screen' : '']">
+    <div
+      :class="[
+        'table-content',
+        state.tableData.length > 0 ? 'full-screen' : '',
+      ]"
+    >
       <el-table
         :data="state.tableData"
         :height="tableHeight - 32"
@@ -15,10 +20,7 @@
           <template v-for="column of columns" :key="column.prop">
             <el-table-column v-if="column.slot" :="column">
               <template #header>
-                <Tip 
-                  :label="column.label"
-                  :tip="column.tip"
-                />
+                <Tip :label="column.label" :tip="column.tip" />
               </template>
               <template #default="{ row }">
                 <slot :name="column.prop" :row="row" :column="column" />
@@ -26,13 +28,13 @@
             </el-table-column>
             <el-table-column v-else :="column">
               <template #header>
-                <Tip 
-                  :label="column.label"
-                  :tip="column.tip"
-                />
+                <Tip :label="column.label" :tip="column.tip" />
               </template>
               <template #default="{ row }">
-                <textEllipsis :type="column.textEllipsis" :text="row[column.prop as string]" />
+                <textEllipsis
+                  :type="column.textEllipsis"
+                  :text="row[column.prop as string]"
+                />
               </template>
             </el-table-column>
           </template>
@@ -55,11 +57,11 @@
 
 <script setup lang="ts">
 import { reactive, ref, watch, onMounted, computed } from 'vue'
-import { useDomGeometry } from '@/hooks'
+import { useDomGeometry } from '@zwms/hooks'
 import textEllipsis from './textEllipsis.vue'
 import { CTableColumnInstance } from './type'
 import { ElMessage, ElTable } from 'element-plus'
-import { simpleDeepCopy } from '@/shared/util'
+import { util } from '@zwms/shared'
 import Tip from './tip.vue'
 
 interface State {
@@ -71,7 +73,7 @@ interface State {
   pageSizes: number[]
   sortByApi: boolean
   sort: {
-    order: string,
+    order: string
     prop: string
   }
 }
@@ -86,22 +88,22 @@ const state: State = reactive({
   pageSizes: [10, 20, 50, 100, 300, 500],
   sort: {
     order: '',
-    prop: ''
-  }
+    prop: '',
+  },
 })
 
 interface Props {
   columns?: CTableColumnInstance[]
   pageVisible?: boolean
-  defaultSort?: { prop?: string, order?: string}
-  mountedGetData: boolean
+  defaultSort?: { prop?: string; order?: string }
+  mountedGetData?: boolean
   fetchData: (
     currentPage?: string | number,
     pageSize?: string | number,
     sort?: string,
     order?: string
   ) =>
-    {
+    | {
         total: number | string
         list: any[]
       }
@@ -129,7 +131,7 @@ const tableRef = ref<HTMLDivElement | null>(null)
 
 const { height } = useDomGeometry(tableContainerRef as any)
 
-const tableHeight = computed(()=>{
+const tableHeight = computed(() => {
   return height.value > 0 ? height.value - 12 : 0
 })
 
@@ -150,46 +152,49 @@ async function getData() {
   if (state.sortByApi) {
     params = [state.sort.prop, state.sort.order]
   }
-  return fetchData(...params).finally(()=>{
+  return fetchTableData(...params).finally(() => {
     state.loading = false
   })
 }
 
-async function fetchData(sort?: string, order?: string): Promise<[any[], number]> {
+async function fetchTableData(
+  sort?: string,
+  order?: string
+): Promise<[any[], number]> {
   const { total, list } = await props.fetchData(
     state.currentPage,
     state.pageSize,
     sort,
     order
   )
-  const formatList = list.map((item, index)=>({
+  const formatList = list.map((item, index) => ({
     ...item,
-    columnIndex: (index + 1) + (state.currentPage - 1 ) * state.pageSize
-  }));
+    columnIndex: index + 1 + (state.currentPage - 1) * state.pageSize,
+  }))
 
-  [state.total, state.tableData] = [Number(total ?? 0), formatList]
-  return [ state.tableData, state.total ]
+  ;[state.total, state.tableData] = [Number(total ?? 0), formatList]
+  return [state.tableData, state.total]
 }
 
-function sortChange(sortParams: {
-  prop: string
-  order: string
-}) {
+function sortChange(sortParams: { prop: string; order: string }) {
   state.sortByApi = false // 是否是后端排序
   state.sort.prop = ''
   state.sort.order = ''
-  for (const column of (props?.columns ?? [])) {
+  for (const column of props?.columns ?? []) {
     if (column.sortProp !== undefined && sortParams.prop === column.prop) {
       state.sortByApi = true
       // 如果排序中止则还原
       if (sortParams.order) {
-        state.sort.prop = column.sortProp === true ? column.prop as string : column.sortProp as string
+        state.sort.prop =
+          column.sortProp === true
+            ? (column.prop as string)
+            : (column.sortProp as string)
         state.sort.order = sortParams.order !== 'descending' ? '1' : '2'
       }
       break
     }
   }
-  
+
   if (state.sortByApi) {
     // 后端排序就去拉数据
     getData()
@@ -200,9 +205,9 @@ function sortChange(sortParams: {
 }
 
 async function getTableData() {
-  let sortTableData: unknown[] = simpleDeepCopy(state.tableData)
+  let sortTableData: unknown[] = util.simpleDeepCopy(state.tableData)
   if (!state.sortByApi) {
-    sortTableData = sortTableData.sort((a: any, b: any)=> {
+    sortTableData = sortTableData.sort((a: any, b: any) => {
       if (state.sort.order === 'descending') {
         return b[state.sort.prop] - a[state.sort.prop]
       }
@@ -212,15 +217,15 @@ async function getTableData() {
   return sortTableData
 }
 
-function refresh(isReset=false) {
+function refresh(isReset = false) {
   state.currentPage = 1
   if (isReset) {
     state.pageSize = 10
     state.sort.prop = ''
-    state.sort.order = '';
-    (tableRef.value as any)?.clearSort()
+    state.sort.order = ''
+    ;(tableRef.value as any)?.clearSort()
   }
-  
+
   getData()
 }
 

@@ -4,9 +4,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watchEffect } from 'vue'
-import { useListenWindowOnresize } from '@/hooks'
+import { useListenWindowOnresize } from '@zwms/hooks'
 import { Chart } from '@antv/g2'
-import { useThemeInfo } from '@/hooks'
+import { useThemeInfo } from '@zwms/hooks'
 // 准备数据
 const data = [
   { genre: 'Sports', sold: 275 },

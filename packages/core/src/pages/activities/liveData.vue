@@ -7,11 +7,10 @@
 </template>
 
 <script setup lang="ts">
-
 import searchTable from '@/components/pageTemplate/searchTable.vue'
-import {  CTableColumnInstance } from '@/components'
+import { CTableColumnInstance } from '@/components'
 import { SearchItem, SearchParams } from '@/components/searchPanel/type'
-import { tableColumnPresets as columns } from '@/shared/constant'
+import { tableColumnPresets as columns } from '@/commons/constant'
 import { getLiveSalesTotalSales } from '@/services'
 
 const searchList: SearchItem[] = [
@@ -25,8 +24,8 @@ const searchList: SearchItem[] = [
   },
 ]
 const tableColumns: CTableColumnInstance[] = [
-columns.activityId,
-  {...columns.title, label: '直播间名称' },
+  columns.activityId,
+  { ...columns.title, label: '直播间名称' },
   columns.gmv,
   columns.gmvOrderCount,
   columns.gmvGoodsSellCount,
