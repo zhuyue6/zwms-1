@@ -9,10 +9,11 @@ import config from './config'
 export default defineConfig({
   base: config.path,
   resolve: {
-    alias: {
-      '@': '/src',
-    },
-    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.d.ts', '.json'],
+    alias: [
+      { find: '@', replacement: '/src' },
+      { find: /^@data-warehouse\/(.*)/, replacement: '@data-warehouse/$1/src' },
+    ],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.d.ts', '.json'],
   },
   css: {
     preprocessorOptions: {

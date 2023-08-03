@@ -2,9 +2,14 @@
   "name": "@zwms/hooks",
   "main": "./dist/index.js",
   "exports": {
-    "types": "./dist/index.d.ts",
-    "require": "./dist/index.js",
-    "import": "./dist/index.esm.js"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.esm.js"
+    },
+    "./src": {
+      "import": "./src/index.ts"
+    }
   },
   "devDependencies": {
     "vue": "^3.2.37"
